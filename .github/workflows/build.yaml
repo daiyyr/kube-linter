@@ -299,14 +299,18 @@ jobs:
 
       - name: Set permissions to files
         run: |
-          chmod +x linux/kube-linter
-          chmod +x darwin/kube-linter
+          chmod +x linux-amd64/kube-linter
+          chmod +x linux-arm64/kube-linter
+          chmod +x darwin-amd64/kube-linter
+          chmod +x darwin-arm64/kube-linter
 
       - name: copy binaries with OS ending
         run: |
           for os in darwin linux; do
-            bin_name="kube-linter"
-            cp "${os}/${bin_name}" "${os}/${bin_name}-${os}"
+            for arc in amd64 arm64 ; do
+              bin_name="kube-linter"
+            cp "${os}-${arc}/${bin_name}" "${os}/${bin_name}-${os}-${arc}"
+            done
           done
 
       - name: create linux tar archive
